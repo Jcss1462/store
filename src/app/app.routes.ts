@@ -14,7 +14,7 @@ export const routes: Routes = [
         children: [
             {
                 path: "",
-                component: ListComponent
+                loadComponent: () => import('./domains/products/pages/list/list.component').then(m=>m.ListComponent)
             },
             {
                 path: "product/:id",

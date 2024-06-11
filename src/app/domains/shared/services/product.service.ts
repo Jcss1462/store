@@ -12,9 +12,15 @@ export class ProductService {
 
   constructor() { }
 
-  getProducts() {
+  getProducts(category_id?:string) {
 
-    let response: Observable<Product[]> = this.http.get<Product[]>("https://api.escuelajs.co/api/v1/products")
+    const url=new URL("https://api.escuelajs.co/api/v1/products");
+
+    if(category_id){
+      url.searchParams.set("categoryId",category_id);
+    }
+
+    let response: Observable<Product[]> = this.http.get<Product[]>(url.toString())
 
     let imageCorrectionResponse = response.pipe(
       map(products => products.map(product => {
@@ -37,7 +43,7 @@ export class ProductService {
         images: products.images.map(item => item.slice(2, -1))
       }))
     );
-    
+
     return imageCorrectionResponse;
   }
 }
