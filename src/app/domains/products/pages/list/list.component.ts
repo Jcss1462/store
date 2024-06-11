@@ -2,7 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { ProductComponent } from './../../components/product/product.component';
 import { Product } from './../../../shared/models/product.model';
 import { HeaderComponent } from './../../../shared/components/header/header.component';
-import { CartService } from '../../../shared/services/cart.service';
+import { CartService } from '@shared/services/cart.service';
+import { ProductService } from '@shared/services/product.service';
 
 @Component({
   selector: 'app-list',
@@ -16,30 +17,20 @@ export class ListComponent {
   products = signal<Product[]>([]);
   
   private  cartService= inject(CartService);
-  cart =this.cartService.cart;
-  total =this.cartService.total;
+  private productService= inject(ProductService);
 
-  constructor(){
-    const initProducts: Product[]=[
-      {
-        id:1,
-        title: "Pro 1",
-        price: 100,
-        image: "https://picsum.photos/640/640?r10",
-        creationAt: Date.now().toString()
+  ngOnInit(): void {
+    this.productService.getProducts().subscribe({
+      next: (products) =>{
+        console.log(products);
+        this.products.set(products);
       },
-      {
-        id:2,
-        title: "Pro 2",
-        price: 100,
-        image: "https://picsum.photos/640/640?r20",
-        creationAt: Date.now().toString()
-      }
-    ]
-
-    this.products.set(initProducts);
+      error(err) {
+        console.error('Error fetching products:', err);
+      },
+    });
   }
-
+  
   addToCar(product: Product){
 
     console.log("estoy en el padre");
