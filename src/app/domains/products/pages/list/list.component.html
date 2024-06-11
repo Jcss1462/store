@@ -1,11 +1,7 @@
-<div class ="container mx-auto">
-    <app-header></app-header>
-    <div class="grid grid-cols-4 gap-8">
+<div class="grid grid-cols-4 gap-8">
 
-        @for(product of products(); track product.id; let i = $index){
+    @for(product of products(); track product.id; let i = $index){
 
-        <app-product [product]="product" (outputVar)="addToCar($event)" />
-        }
-    </div>
+    <app-product [product]="product" (outputVar)="addToCar($event)" />
+    }
 </div>
-
