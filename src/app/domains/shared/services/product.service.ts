@@ -46,4 +46,10 @@ export class ProductService {
 
     return imageCorrectionResponse;
   }
+
+  addProduct(product: Product) {
+
+    return this.http.post<Product>( 'https://api.escuelajs.co/api/v1/products/', product);
+    
+  }
 }
